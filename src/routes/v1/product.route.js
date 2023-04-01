@@ -1,21 +1,22 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const productValidation = require('../../validations/product.validation');
+const productController = require('../../controllers/product.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(validate(userValidation.createUser), userController.createUser)
-  .get(validate(userValidation.getUsers), userController.getUsers);
+  .post(validate(productValidation.createProduct), productController.createProduct)
+  .get(validate(productValidation.getProducts), productController.getProducts)
+  .delete(validate(productValidation.deleteAllProducts), productController.deleteAllProducts);
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(validate(userValidation.updateUser), userController.updateUser)
-  .delete(validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:productId')
+  .get(auth('getProduct'), validate(productValidation.getProduct), productController.getProduct)
+  .patch(validate(productValidation.updateProduct), productController.updateProduct)
+  .delete(validate(productValidation.deleteProduct), productController.deleteProduct);
 
 module.exports = router;
 

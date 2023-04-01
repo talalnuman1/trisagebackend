@@ -1,21 +1,19 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const orderValidation = require('../../validations/order.validation');
+const orderController = require('../../controllers/order.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(validate(userValidation.createUser), userController.createUser)
-  .get(validate(userValidation.getUsers), userController.getUsers);
-
+  .post(validate(orderValidation.createOrder), orderController.createOrder)
+  .get(validate(orderValidation.getOrders), orderController.getOrders);
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(validate(userValidation.updateUser), userController.updateUser)
-  .delete(validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:orderId')
+  .get(auth('getorder'), validate(orderValidation.getOrder), orderController.getOrder)
+  .delete(auth('deleteorder'), validate(orderValidation.deleteOrder), orderController.deleteOrder);
 
 module.exports = router;
 
